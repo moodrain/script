@@ -1,0 +1,24 @@
+auto code summarization begein!
+target directory: demo/src/main/java
+ignore prefix: demo/src/main/resources
+
+================ /main/controller/MainController.java ===============
+package main.controller;
+
+class MainController
+{
+    
+}
+
+================ /main/service/MainService.java ===============
+package main.service;
+
+class MainService
+{
+    
+}
+
+==============================
+summarization success! 2 files handled
+execute time: 0.002 micro seconds
+memory usage: 364 kb
