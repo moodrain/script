@@ -56,7 +56,24 @@ def delByName(dir, name):
             os.remove(path)
             handMsg(path)
 
+def escapeWord(dir, word):
+    files = os.listdir(dir)
+    for f in files:
+        path = dir + sep + f
+        if os.path.isfile(path):
+            if f.find(word) != -1:
+                os.rename(path, dir + sep + base(f).replace(word, '', 1) + '.' + ext(f))
+                handMsg(path)
+        elif os.path.isdir(path):
+            escapeWord(path, word)
+            piece = path.split(sep)
+            baseDir = piece[len(piece)-1]
+            newDir = baseDir.replace(word, '', 1)
+            os.rename(path, newDir)
+            handMsg(path)
+
 def numberFile(dir):
+    tmpPrefix = 'number_file_tmp_prefix_2021'
     files = os.listdir(dir)
     toSort = []
     for f in files:
@@ -67,9 +84,15 @@ def numberFile(dir):
     toSort.sort()
     no = 1
     for s in toSort:
-        os.rename(dir + sep + s, dir + sep + str(no) + '.' + ext(s))
+        os.rename(dir + sep + s, dir + sep + tmpPrefix + str(no) + '.' + ext(s))
         handMsg(dir + sep + s)
         no += 1
+    tmpFiles = os.listdir(dir)
+    for f in tmpFiles:
+        path = dir + sep + f
+        if os.path.isfile(path):
+            if f.find(tmpPrefix) != -1:
+                os.rename(path, dir + sep + base(f).replace(tmpPrefix, '', 1) + '.' + ext(f))
 
 def mergeDir(target, parent, numberName, no):
     parentPath = cd + parent
@@ -108,21 +131,7 @@ def mergeDir(target, parent, numberName, no):
         except:
             pass
 
-def escapeWord(dir, word):
-    files = os.listdir(dir)
-    for f in files:
-        path = dir + sep + f
-        if os.path.isfile(path):
-            if f.find(word) != -1:
-                os.rename(path, dir + sep + base(f).replace(word, '', 1) + '.' + ext(f))
-                handMsg(path)
-        elif os.path.isdir(path):
-            escapeWord(path, word)
-            piece = path.split(sep)
-            baseDir = piece[len(piece)-1]
-            newDir = baseDir.replace(word, '', 1)
-            os.rename(path, newDir)
-            handMsg(path)
+
 
 if operType == '1':
     newExt = inputr('输入更改之后的后缀')
